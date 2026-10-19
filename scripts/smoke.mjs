@@ -5,7 +5,7 @@ import { join } from 'node:path';
 const file = (path) => readFileSync(join('dist', path), 'utf8');
 const required = ['index.html', 'about/index.html', 'search/index.html',
   'tags/index.html', 'tags/Getting started/index.html',
-  'posts/hello-plain/index.html', 'posts/technical-typography/index.html', 'search-index.json', 'rss.xml'];
+  'posts/hello-plain/index.html', 'posts/technical-typography/index.html', 'search-index.json', 'rss.xml', 'sitemap.xml', 'robots.txt'];
 for (const path of required) {
   assert.ok(existsSync(join('dist', path)), `Missing generated file: ${path}`);
 }
@@ -20,6 +20,12 @@ for (const [name, html] of [['home', home], ['article', article]]) {
 }
 const search = JSON.parse(file('search-index.json'));
 const rss = file('rss.xml');
+const sitemap = file('sitemap.xml');
+const robots = file('robots.txt');
+assert.match(sitemap, /<urlset/, 'Sitemap should be valid URL set XML');
+assert.match(sitemap, /posts\/technical-typography\//, 'Sitemap includes published technical post');
+assert.match(sitemap, /tags\/Go\//, 'Sitemap includes tag pages');
+assert.match(robots, /Sitemap: /, 'Robots advertises sitemap');
 const bilingual = file('posts/technical-typography/index.html');
 assert.match(bilingual, /技术文章排版示例/, 'Chinese heading should render');
 assert.match(bilingual, /<table>/, 'Technical table should render');
@@ -38,4 +44,6 @@ const base = process.env.BASE_PATH ?? (process.env.GITHUB_ACTIONS && repo !== `$
 assert.ok(home.includes(`href="${base === '/' ? '/' : base + '/'}posts/hello-plain/"`), 'Post link must respect GitHub Pages base path');
 assert.ok(search.some(p => p.url.startsWith(base === '/' ? '/posts/' : base + '/posts/')), 'Search index URLs must respect the base path');
 assert.ok(rss.includes(base === '/' ? '/posts/' : base + '/posts/'), 'RSS URLs must respect the base path');
+assert.ok(sitemap.includes(base === '/' ? '/posts/' : base + '/posts/'), 'Sitemap URLs must respect base path');
+assert.ok(robots.includes(base === '/' ? '/sitemap.xml' : base + '/sitemap.xml'), 'Robots sitemap URL must respect base path');
 console.log('Plain smoke test passed: pages, article, search, tags, RSS, base path');
