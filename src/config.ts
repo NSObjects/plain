@@ -2,6 +2,8 @@
 export const site = {
   name: 'Plain',
   locale: 'zh-CN',
+  heading: 'Ideas worth writing down.',
+  eyebrow: 'ENGINEERING NOTES',
   description: 'A thoughtful space for engineering notes and ideas.',
   author: 'Your Name',
   intro: 'Writing about software engineering, the web, and ideas worth keeping.',

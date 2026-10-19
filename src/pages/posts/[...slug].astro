@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { site } from '../../config';
 export async function getStaticPaths() {
   const posts = await getCollection('posts', ({ data }) => !data.draft);
   return posts.map(post => ({params:{slug:post.id},props:{post}}));
@@ -14,7 +15,7 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
   <article class="article">
     <a class="back-link" href={base}>← 返回文章列表</a>
     <header class="article-header">
-      <div class="post-meta"><time datetime={post.data.publishedAt.toISOString()}>{post.data.publishedAt.toLocaleDateString('en-US',{dateStyle:'long'})}</time>{post.data.updatedAt && <span>· 更新于 {post.data.updatedAt.toLocaleDateString('en-US',{dateStyle:'medium'})}</span>}</div>
+      <div class="post-meta"><time datetime={post.data.publishedAt.toISOString()}>{post.data.publishedAt.toLocaleDateString(site.locale,{dateStyle:'long'})}</time>{post.data.updatedAt && <span>· 更新于 {post.data.updatedAt.toLocaleDateString(site.locale,{dateStyle:'medium'})}</span>}</div>
       <h1>{post.data.title}</h1>
       <p class="article-description">{post.data.description}</p>
       <div class="tag-list">{post.data.tags.map(tag => <span class="tag">{tag}</span>)}</div>
