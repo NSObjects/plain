@@ -3,9 +3,9 @@ export const site = {
   name: 'Plain',
   locale: 'zh-CN',
   heading: '写下值得反复阅读的技术笔记。',
-  eyebrow: 'ENGINEERING NOTES',
+  eyebrow: '技术笔记',
   description: '关于工程实践、系统设计，以及那些值得长期记录的想法。',
-  author: 'Your Name',
+  author: '博客作者',
   socialImage: '', // Optional absolute URL for the social preview image
   robots: 'index, follow',
   intro: '从代码细节到系统架构，保持思考，持续记录。',
