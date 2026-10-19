@@ -1,105 +1,148 @@
 # Plain
 
-**A quiet Astro theme for people who build software.**
+一个为开发者设计的轻量级 [Astro](https://astro.build/) 博客主题。专注中文 / 英文技术文章、代码阅读和简洁的排版。
 
-Plain is a reusable developer blog starter, not a ready-made personal site. It favours readable articles, clean code blocks and stable page layouts over decorative UI.
+[在线预览](https://nsobjects.github.io/plain/) · [最新版本](https://github.com/NSObjects/plain/releases/latest) · [通过模板创建博客](https://github.com/new?template_name=plain&template_owner=NSObjects)
 
-## Features
+## 功能
 
-- Fast static Astro pages, Markdown content collections and Shiki syntax highlighting
-- Comfortable responsive typography, article table of contents and dark mode
-- Configurable site title, intro, locale, heading, navigation and author
-- Chinese and English technical examples, responsive About page
-- Lightweight search, tag pages and RSS feed
-- Code copy, language labels, active article TOC and mobile collapsible TOC
-- GitHub Pages deployment workflow, sitemap, robots.txt, and Open Graph / Twitter Card metadata
+- 响应式首页、文章页、关于页与深色模式
+- Markdown 文章、Shiki 代码高亮、代码复制与语言标识
+- 桌面端目录、移动端折叠目录、当前章节高亮
+- 按文章标题、摘要及标签搜索；标签页面和 RSS
+- Sitemap、robots.txt、Open Graph / Twitter Card 元数据
+- GitHub Pages 自动部署与桌面 / 手机端浏览器测试
 
-## Getting started
+> Plain 是**完整的 Astro 网站模板**，不是 WordPress、Hexo 或 Hugo 的安装式主题。通过 GitHub Template 创建自己的仓库后，你可以独立维护文章与配置。
 
-Requires Node.js 22+.
+## 1. 创建博客仓库
+
+点击 [**Use this template**](https://github.com/new?template_name=plain&template_owner=NSObjects)，创建一个新仓库。常见命名方式：
+
+| 仓库名 | 预期网站地址 |
+| --- | --- |
+| `USERNAME.github.io` | `https://USERNAME.github.io/` |
+| `my-blog` | `https://USERNAME.github.io/my-blog/` |
+
+将 `USERNAME` 替换为你的 GitHub 用户名。**使用用户名根站点仓库**可以得到更短的网址；也可以采用任意项目仓库名。
+
+## 2. 本地启动
+
+需要 Node.js **22+**。
 
 ```bash
+git clone https://github.com/USERNAME/REPOSITORY.git
+cd REPOSITORY
 npm install
 npm run dev
 ```
 
-Visit http://localhost:4321.
+将 `USERNAME/REPOSITORY` 替换为你刚创建的仓库，访问 http://localhost:4321/ 预览。
 
-Edit `src/config.ts` to customize the title, locale, heading, intro, author, GitHub link and navigation. Set `site.locale` to `zh-CN` or `en-US` for article date formatting. Navigation labels and About page copy are currently Chinese by default and can be edited in the corresponding components.
+## 3. 修改站点信息
 
-To start from GitHub, use **Use this template** once the repository owner enables **Settings → General → Template repository**; until then, fork or clone the repository. In your new repository, enable **Settings → Pages → Build and deployment → GitHub Actions**. Push to `main` and check the deployment workflow. Project Pages automatically uses the new repository name as its base path; for a custom domain, set `SITE_URL` and `BASE_PATH` appropriately. Replace the included sample posts before publishing your own content.
+编辑 `src/config.ts`，修改博客名称、作者、首页文案、社交链接与导航：
+
+```ts
+export const site = {
+  name: '我的技术博客',
+  locale: 'zh-CN',
+  heading: '记录技术与思考',
+  eyebrow: 'ENGINEERING NOTES',
+  description: '分享 Go、系统架构与工程实践',
+  author: 'Your Name',
+  socialImage: '', // 可选：社交分享图片的公开 URL
+  robots: 'index, follow',
+  intro: '记录软件工程中的实践与经验。',
+  links: { github: 'https://github.com/USERNAME' },
+  nav: [
+    { label: '文章', href: '/' },
+    { label: '搜索', href: '/search/' },
+    { label: '标签', href: '/tags/' },
+    { label: '关于', href: '/about/' },
+  ],
+};
+```
+
+`locale` 会影响文章日期格式和页面语言属性，但**不会自动翻译界面**。如需修改关于页正文，请编辑 `src/pages/about.astro`。
+
+## 4. 写第一篇文章
+
+在 `src/content/posts/` 中创建 `hello-world.md`：
 
 ```md
 ---
-title: "My first post"
-description: "A short summary"
+title: "我的第一篇文章"
+description: "记录使用 Plain 搭建博客的过程"
 publishedAt: 2026-10-19
-tags: ["Go", "Architecture"]
+tags: ["Go", "随笔"]
+draft: false
 ---
 
-Your Markdown content here.
+## Hello Plain
+
+这是我的第一篇技术文章。
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello, Plain!")
+}
+```
 ```
 
-Only posts with `draft: false` (the default) are published.
+> 上面示例包含嵌套 Markdown 代码围栏；复制时注意外层示例和内部 Go 代码围栏的区别。
 
-## Template release prerequisite
+文章会进入首页、搜索索引、标签页和 RSS。设置 `draft: true` 可以让未完成文章不发布。建议删除或替换模板自带的 `hello-plain.md` 与 `technical-typography.md` 示例文章。
 
-The upstream repository is not yet marked as a GitHub Template. The repository owner must enable **Settings → General → Template repository** before advertising the **Use this template** workflow. This administrative setting cannot be changed by a normal pull request.
+## 5. 部署到 GitHub Pages
 
-## Before publishing
-
-1. Update `src/config.ts` (site name, description, author, links, navigation).
-2. Delete or replace the two example articles in `src/content/posts/`.
-3. Enable GitHub Pages with **GitHub Actions** as source and push `main`.
-4. Confirm links, RSS, sitemap and social metadata on your deployed URL.
-
-## Build
+1. 打开你新仓库的 **Settings → Pages**。
+2. 在 **Build and deployment → Source** 中选择 **GitHub Actions**。
+3. 提交修改并推送到 `main`：
 
 ```bash
-npm run build
-npm run preview
+git add .
+git commit -m "Initialize my blog"
+git push origin main
 ```
 
-## GitHub Pages
+仓库中的 `.github/workflows/deploy.yml` 会自动构建并部署网站。进入 **Actions** 查看部署进度，成功后即可访问上面表格对应的网址。
 
-The `.github/workflows/deploy.yml` workflow deploys `main` to GitHub Pages. In repository Settings → Pages, choose **GitHub Actions** as the build and deployment source.
+项目站点会自动适配 `/REPOSITORY/` 子路径；需要自定义域名或特殊路径时，可使用 `SITE_URL`、`BASE_PATH` 环境变量覆盖 `astro.config.mjs` 中的默认值。
 
-For public deployment, set `site.author`, `site.description`, and optionally `site.socialImage` in `src/config.ts`. Set `site.robots` to `noindex, nofollow` for non-public previews. A social image should be a publicly accessible URL; if unset, the theme uses the compact summary card without an image. 
- 
-The generated `sitemap.xml` lists published posts and tag pages and respects the configured deployment base path. The generated `robots.txt` advertises the sitemap. **Note:** on GitHub Pages project sites (such as `/plain/`), robots.txt is served under the project prefix and does not control the host-wide root robots policy; use an apex/custom domain or user-site root to make robots.txt authoritative. 
- 
-For a repository named `username.github.io`, Astro uses a root URL. For a project repository, it uses the repository name as the base path. `SITE_URL` and `BASE_PATH` environment variables can override these values for custom domains.
+**提示：** 对于 GitHub Pages 项目站点，`/REPOSITORY/robots.txt` 不是域名根目录的爬虫规则。使用自定义域名或根站点时才能更直接地控制根路径的 robots.txt。
 
-## Design direction
+## 日常更新文章
 
-- Minimal UI, not minimal functionality
-- Long-form Chinese and English technical reading
-- Code, tables and diagrams should never force a horizontal page overflow
-- Accessible keyboard navigation and mobile layouts
+写入新的 `src/content/posts/*.md` 文件后，执行：
 
-## Roadmap
+```bash
+git add .
+git commit -m "Add new post"
+git push origin main
+```
 
-- [x] Home, posts, About and table of contents
-- [x] Dark mode and Markdown syntax highlighting
-- [x] Search by title, description and tags; tag pages and RSS
-- [x] Copy code, language labels and active table of contents
-- [x] Basic Open Graph and Twitter Card metadata 
-- [x] Sitemap and robots.txt generation 
-- [ ] Archive view
-- [ ] Full-body search and image zoom
-- [ ] Mermaid support and complete bilingual typography review
-- [ ] Browser visual regression and accessibility checks
+推送即触发自动部署，不需要自己生成 HTML。
 
-## License
-
-MIT
-
-## Quality checks
+## 本地质量检查
 
 ```bash
 npm run check
 npm run build
 node scripts/smoke.mjs
+npm run preview
 ```
 
-GitHub Actions additionally runs Chromium against mobile and desktop viewports. The included bilingual sample articles exercise code, tables, links and mixed CJK/Latin typography. CI screenshots are attached as workflow artifacts.
+GitHub Actions 会另外运行 Chromium 桌面端与移动端检查，截图作为工作流 Artifact 保存。
+
+## 已知范围与后续计划
+
+当前搜索范围是文章**标题、摘要和标签**，不是全文搜索。后续候选功能包括文章归档、全文搜索、图片放大、Mermaid 图表和进一步的无障碍审计；这些功能尚未承诺发布时间。
+
+## 许可证
+
+[MIT](LICENSE)
