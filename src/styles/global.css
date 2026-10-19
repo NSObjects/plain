@@ -69,3 +69,11 @@
 .featured-copy,.home-post-body{min-width:0}
 .featured-copy h3,.home-post h3,.home-post-tags span,.featured-topics .tag{overflow-wrap:anywhere}
 .home-post-tags span{max-width:100%}
+
+/* Long summaries should not dominate the article index; full text remains in the DOM. */
+.home-post-body>p{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden}
+.home-post-tags{column-gap:10px;row-gap:5px;line-height:1.6}
+@media(max-width:600px){
+  .home-post{padding:22px 0}
+  .home-post-tags{column-gap:9px;row-gap:4px}
+}

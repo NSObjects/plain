@@ -63,6 +63,10 @@ try {
     });
     assert.equal(await page.locator('.home-post').count(), 9, 'Stress fixture renders nine recent articles');
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false, `${name} homepage with long titles and tags must not overflow`);
+    const summaryClamp = await page.locator('.home-post-body p').first().evaluate(el => ({height: el.getBoundingClientRect().height, lineHeight: parseFloat(getComputedStyle(el).lineHeight)}));
+    assert.ok(summaryClamp.height <= summaryClamp.lineHeight * 2 + 2, `${name} long summary must be clamped to two lines`);
+    const completeLongTitle = await page.locator('.home-post h3 a').nth(1).textContent();
+    assert.ok(completeLongTitle.includes('DistributedTracing_'), 'Long article title remains fully present');
     await page.screenshot({ path: `screenshots/${name}-home-stress.png`, fullPage: true });
     await page.reload({ waitUntil: 'networkidle' });
     await page.getByRole('button', { name: '切换深浅色模式' }).click();
