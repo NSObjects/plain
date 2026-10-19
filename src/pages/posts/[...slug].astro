@@ -32,6 +32,14 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
     document.querySelectorAll('.prose pre').forEach(pre => {
       const code = pre.querySelector('code');
       if (!code) return;
+      const classNames = code.className.split(/\s+/);
+      const language = classNames.find(name => name.startsWith('language-'))?.slice(9);
+      if (language) {
+        const label = document.createElement('span');
+        label.className = 'code-language';
+        label.textContent = language.toUpperCase();
+        pre.append(label);
+      }
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'copy-code';

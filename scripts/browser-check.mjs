@@ -35,6 +35,8 @@ try {
     await page.goto(root + 'posts/hello-plain/', {waitUntil:'networkidle'});
     assert.equal(await page.locator('.prose pre').count() > 0, true, 'Article includes code block');
     assert.equal(await page.getByRole('button', { name:'复制代码' }).count() > 0, true, 'Code copy control exists');
+    const codeLanguage = page.locator('.prose pre .code-language').first();
+    assert.equal(await codeLanguage.textContent(), 'GO', 'Language label should show Go');
     const articleOverflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1);
     assert.equal(articleOverflow, false, `${name} article overflows horizontally`);
     if (name === 'mobile') {
