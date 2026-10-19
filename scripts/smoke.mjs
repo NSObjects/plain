@@ -32,7 +32,7 @@ assert.match(bilingual, /<table>/, 'Technical table should render');
 assert.match(bilingual, /context\.Context/, 'Inline code should render');
 assert.match(home, /欢迎使用 Plain/, 'The published article should appear on the homepage');
 assert.match(article, /Hello, Plain!/, 'Go code example should render');
-assert.match(file('tags/index.html'), /tags\/Getting%20started\//, 'Tag link should URL-encode spaces');
+assert.match(file('tags/index.html'), /tags\/%E5%85%A5%E9%97%A8\//, 'Tag link should URL-encode Unicode');
 assert.match(file('tags/入门/index.html'), /欢迎使用 Plain/, 'Tag listing should include article');
 assert.match(article, /文章目录/, 'Article TOC should render');
 assert.ok(search.some(p => p.title === '欢迎使用 Plain'), 'Search index should include published posts');
