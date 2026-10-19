@@ -48,3 +48,9 @@
 .back-to-top:hover{color:var(--accent)}
 .prose h2[id],.prose h3[id]{scroll-margin-top:36px}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* v1.4: consistent readable focus states and metadata rhythm */
+.post-meta{font-variant-numeric:tabular-nums;line-height:1.6}
+.post-item h3 a:focus-visible,.toc a:focus-visible,.mobile-toc a:focus-visible{border-radius:2px}
+.prose :is(p,li,td){overflow-wrap:break-word}
+@media print{.site-header nav,.theme-toggle,.toc,.mobile-toc,.back-to-top,.copy-code{display:none!important}.wrap{max-width:none}.article-layout{display:block}.prose{max-width:none}body{color:#000;background:#fff}}
