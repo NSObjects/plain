@@ -17,7 +17,7 @@ const formatDate = (date: Date) => date.toLocaleDateString(site.locale, { year: 
       <a class="home-text-link" href={base + 'about/'}>了解更多 <span aria-hidden="true">↗</span></a>
     </div>
     <div class="home-hero-aside" aria-label="博客介绍">
-      <span class="home-aside-mark" aria-hidden="true">P.</span>
+      <span class="home-aside-mark" aria-hidden="true">{site.name.slice(0, 1).toLocaleUpperCase(site.locale)}.</span>
       <p>{site.description}</p>
     </div>
   </section>

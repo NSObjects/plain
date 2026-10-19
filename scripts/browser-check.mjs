@@ -37,6 +37,10 @@ try {
     assert.equal(new URL(page.url()).hash, '#main', 'Skip link must jump to main landmark');
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1);
     assert.equal(overflow, false, `${name} homepage overflows horizontally`);
+    assert.equal(await page.locator('.home-aside-mark').textContent(), 'P.', 'Homepage brand monogram should follow configured site name');
+    assert.equal(await page.locator('.featured-article').count(), 1, 'Homepage should feature exactly one published post');
+    assert.equal(await page.locator('.home-post').count(), 1, 'Other published posts should appear in the recent list');
+    assert.equal(await page.locator('.home-post a[href*="/posts/"]').first().count(), 1, 'Latest article link should exist');
     await page.screenshot({ path: `screenshots/${name}-home.png`, fullPage: true });
     await page.getByRole('button', { name: '切换深浅色模式' }).click();
     assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark', 'Theme toggle works');
