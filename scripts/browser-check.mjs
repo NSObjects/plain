@@ -6,7 +6,11 @@ import assert from 'node:assert/strict';
 const server = spawn('npm', ['run', 'preview', '--', '--host', '127.0.0.1', '--port', '4329'], {
   stdio: 'inherit', env: process.env
 });
-const base = process.env.GITHUB_ACTIONS && process.env.GITHUB_REPOSITORY === 'NSObjects/plain' ? '/plain/' : '/';
+const [owner, repo] = (process.env.GITHUB_REPOSITORY ?? '').split('/');
+const isPages = Boolean(process.env.GITHUB_ACTIONS && owner && repo);
+const configuredBase = process.env.BASE_PATH ??
+  (isPages && repo !== `${owner}.github.io` ? `/${repo}` : '/');
+const base = configuredBase.endsWith('/') ? configuredBase : configuredBase + '/';
 const root = 'http://127.0.0.1:4329' + base;
 let browser;
 try {
