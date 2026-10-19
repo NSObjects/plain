@@ -7,7 +7,7 @@ const base = import.meta.env.BASE_URL;
   <section class="intro compact"><h1>{t.search.heading}</h1><p>{t.search.intro}</p></section>
   <div class="search-panel">
     <label for="query">{t.search.keyword}</label>
-    <input id="query" type="search" placeholder={t.search.placeholder} autocomplete="off" data-index={base + 'search-index.json'} data-empty={t.search.prompt} data-error={t.search.failure} data-found-zh={t.search.found(0)} data-locale={import.meta.env.SITE_LOCALE ?? ''} />
+    <input id="query" type="search" placeholder={t.search.placeholder} autocomplete="off" data-index={base + 'search-index.json'} data-empty={t.search.prompt} data-error={t.search.failure} data-found-template={t.search.found(987654)} />
     <p class="search-status" role="status" aria-live="polite">{t.search.prompt}</p>
     <ul id="results" class="search-results"></ul>
   </div>
@@ -18,7 +18,7 @@ const base = import.meta.env.BASE_URL;
     if(input && results && status){
       const prompt = input.dataset.empty ?? '';
       const failure = input.dataset.error ?? '';
-      const foundLabel = (n: number) => `${input.dataset.foundZh?.startsWith('找到') ? `找到 ${n} 篇文章` : `Found ${n} posts`}`;
+      const foundLabel = (n: number) => (input.dataset.foundTemplate ?? '').replace('987654', String(n));
       let posts: Array<{title:string;description:string;tags:string[];url:string;date:string}> = [];
       let loadError = false;
       fetch(input.dataset.index!).then(r=>{if(!r.ok)throw new Error('index'); return r.json()})
