@@ -10,3 +10,6 @@
 .prose img{display:block;margin:1.5em auto}
 .prose :is(th,td){white-space:normal;min-width:90px}
 @media(max-width:600px){.prose{font-size:16px;line-height:1.85}.prose pre{padding:42px 14px 16px!important}.prose h2{font-size:23px}.prose h3{font-size:19px}}
+
+/* Search, tags, and compact page introductions */
+.intro.compact{padding:50px 0 30px}.intro.compact h1{margin:10px 0}.search-panel{max-width:760px}.search-panel label{display:block;font-size:14px;margin-bottom:8px}.search-panel input{width:100%;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);font:inherit;padding:12px 14px}.search-status{color:var(--muted);font-size:13px;margin:16px 0}.search-results,.tag-directory{list-style:none;padding:0;max-width:760px}.search-results li,.tag-directory li{padding:18px 0;border-bottom:1px solid var(--line)}.search-results a,.tag-directory a{font-weight:600;text-decoration:none}.search-results p{color:var(--muted);margin:3px 0 0;font-size:14px}.tag-directory li{display:flex;justify-content:space-between;gap:12px}.tag-directory span{color:var(--muted);font-size:13px}
