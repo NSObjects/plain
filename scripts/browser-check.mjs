@@ -27,6 +27,13 @@ try {
     const page = await browser.newPage({ viewport: { width, height } });
     await page.goto(root, { waitUntil: 'networkidle' });
     assert.match(await page.title(), /Plain/);
+    assert.equal(await page.locator('html').getAttribute('lang'), 'zh-CN', 'Document language should be declared');
+    assert.equal(await page.locator('main#main').count(), 1, 'Main landmark must exist');
+    assert.equal(await page.locator('header nav[aria-label]').count(), 1, 'Navigation should have accessible name');
+    await page.keyboard.press('Tab');
+    assert.equal(await page.locator('.skip-link').evaluate(node => node === document.activeElement), true, 'Skip link must be first keyboard focus');
+    await page.keyboard.press('Enter');
+    assert.equal(new URL(page.url()).hash, '#main', 'Skip link must jump to main landmark');
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1);
     assert.equal(overflow, false, `${name} homepage overflows horizontally`);
     await page.screenshot({ path: `screenshots/${name}-home.png`, fullPage: true });
@@ -57,6 +64,8 @@ try {
     await page.screenshot({ path: `screenshots/${name}-article.png`, fullPage: true });
     await page.goto(root + 'posts/technical-typography/', {waitUntil: 'networkidle'});
     assert.equal(await page.locator('.prose table').count(), 1, 'Technical table should render');
+    assert.equal(await page.locator('h1').count(), 1, 'Page should have a single primary heading');
+    assert.equal(await page.locator('a:not([href])').count(), 0, 'Links must have href attributes');
     assert.equal(await page.locator('.prose pre').count(), 2, 'Code blocks should render');
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false, `${name} bilingual article overflows horizontally`);
     await page.screenshot({ path: `screenshots/${name}-typography.png`, fullPage: true });
