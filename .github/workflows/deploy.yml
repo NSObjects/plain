@@ -32,3 +32,34 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+      - name: Verify public Pages content
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="${PAGE_URL%/}/"
+          for resource in "" "rss.xml" "sitemap.xml" "robots.txt"; do
+            url="${base}${resource}"
+            body="$(mktemp)"
+            success=0
+            for attempt in {1..8}; do
+              if curl --fail --silent --show-error --location --max-time 15 "$url" -o "$body" && test -s "$body"; then
+                success=1
+                break
+              fi
+              sleep 10
+            done
+            if [ "$success" -ne 1 ]; then
+              echo "::error::Unable to fetch deployed resource: $url"
+              exit 1
+            fi
+            case "$resource" in
+              "") grep -q '<html' "$body" ;;
+              "rss.xml") grep -q '<rss' "$body" ;;
+              "sitemap.xml") grep -q '<urlset' "$body" ;;
+              "robots.txt") grep -q 'Sitemap:' "$body" ;;
+            esac || { echo "::error::Unexpected content at $url"; exit 1; }
+            echo "Verified $url"
+            rm -f "$body"
+          done
