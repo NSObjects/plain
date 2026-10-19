@@ -6,7 +6,8 @@ import assert from 'node:assert/strict';
 const server = spawn('npm', ['run', 'preview', '--', '--host', '127.0.0.1', '--port', '4329'], {
   stdio: 'inherit', env: process.env
 });
-const base = process.env.GITHUB_ACTIONS && process.env.GITHUB_REPOSITORY === 'NSObjects/plain' ? '/plain/' : '/';
+import { previewBase } from './preview-base.mjs';
+const base = previewBase(process.env);
 const root = 'http://127.0.0.1:4329' + base;
 let browser;
 try {

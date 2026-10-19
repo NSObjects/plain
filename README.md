@@ -27,7 +27,7 @@ Visit http://localhost:4321.
 
 Edit `src/config.ts` to customize the title, locale, heading, intro, author, GitHub link and navigation. Set `site.locale` to `zh-CN` or `en-US` for article date formatting. Navigation labels and About page copy are currently Chinese by default and can be edited in the corresponding components.
 
-To start from GitHub, use **Use this template** if the repository owner has enabled it; otherwise fork or clone the repository. In your new repository, enable **Settings → Pages → Build and deployment → GitHub Actions**. Push to `main` and check the deployment workflow. Replace the included sample posts before publishing your own content.
+To start from GitHub, use **Use this template** once the repository owner enables **Settings → General → Template repository**; until then, fork or clone the repository. In your new repository, enable **Settings → Pages → Build and deployment → GitHub Actions**. Push to `main` and check the deployment workflow. Project Pages automatically uses the new repository name as its base path; for a custom domain, set `SITE_URL` and `BASE_PATH` appropriately. Replace the included sample posts before publishing your own content.
 
 ```md
 ---
@@ -41,6 +41,10 @@ Your Markdown content here.
 ```
 
 Only posts with `draft: false` (the default) are published.
+
+## Template release prerequisite
+
+The upstream repository is not yet marked as a GitHub Template. The repository owner must enable **Settings → General → Template repository** before advertising the **Use this template** workflow. This administrative setting cannot be changed by a normal pull request.
 
 ## Before publishing
 
