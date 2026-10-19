@@ -38,6 +38,8 @@ try {
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1);
     assert.equal(overflow, false, `${name} homepage overflows horizontally`);
     assert.equal(await page.locator('.home-aside-mark').textContent(), 'P.', 'Homepage brand monogram should follow configured site name');
+    assert.equal(await page.locator('.eyebrow').first().textContent(), '技术笔记', 'Default homepage tagline should use Chinese');
+    assert.equal(await page.getByRole('heading', { name: '欢迎使用 Plain' }).count(), 1, 'Default example article title should use Chinese');
     assert.equal(await page.locator('.featured-article').count(), 1, 'Homepage should feature exactly one published post');
     assert.equal(await page.locator('.home-post').count(), 1, 'Other published posts should appear in the recent list');
     assert.equal(await page.locator('.home-post a[href*="/posts/"]').first().count(), 1, 'Latest article link should exist');

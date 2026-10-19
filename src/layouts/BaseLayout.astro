@@ -36,7 +36,7 @@ const socialImage = site.socialImage ? new URL(site.socialImage, Astro.site).hre
   <body>
     <a class="skip-link" href="#main">跳转到正文</a>
     <header class="site-header wrap">
-      <a class="brand" href={base} aria-label={site.name + ' home'}>{site.name}<span class="brand-dot">.</span></a>
+      <a class="brand" href={base} aria-label={site.name + ' 首页'}>{site.name}<span class="brand-dot">.</span></a>
       <nav aria-label="主导航">
         {site.nav.map(item => <a href={base + item.href.replace(/^\//,'')}>{item.label}</a>)}
         <a class="icon-link" href={site.links.github} aria-label="GitHub" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
@@ -44,7 +44,7 @@ const socialImage = site.socialImage ? new URL(site.socialImage, Astro.site).hre
       </nav>
     </header>
     <main id="main" class="wrap"><slot /></main>
-    <footer class="site-footer wrap"><span>© {new Date().getFullYear()} {site.author}</span><span>Built with Astro · Plain</span></footer>
+    <footer class="site-footer wrap"><span>© {new Date().getFullYear()} {site.author}</span><span>基于 Astro 构建 · Plain</span></footer>
     <script>
       document.querySelector('.theme-toggle')?.addEventListener('click', () => {
         const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';

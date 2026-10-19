@@ -1,17 +1,17 @@
 ---
-title: "Welcome to Plain"
-description: "A calm, readable home for notes on engineering and software."
+title: "欢迎使用 Plain"
+description: "一个专注技术写作、代码阅读与舒适排版的 Astro 博客主题。"
 publishedAt: 2026-10-19
-tags: ["Getting started", "Astro"]
+tags: ["入门", "Astro"]
 ---
 
-Plain is a small Astro theme for developers who care about writing and reading.
+Plain 是一个面向开发者的 Astro 博客主题，适合记录工程经验、技术方案和长期积累的思考。
 
-## Why another theme?
+## 为什么做一个简洁的主题？
 
-Content should come first. The interface is intentionally restrained, with comfortable line length, predictable typography, and enough room for code.
+博客最重要的是内容。Plain 尽量减少不必要的装饰，为文章、代码和图表提供清晰的阅读空间。
 
-## Code should feel at home
+## 让代码成为内容的一部分
 
 ```go
 package main
@@ -23,8 +23,8 @@ func main() {
 }
 ```
 
-## Start writing
+## 开始写作
 
-Create a Markdown file under `src/content/posts/` with the required frontmatter. Add headings, links, lists, and code samples as needed.
+在 `src/content/posts/` 目录中创建 Markdown 文件，填写标题、摘要、发布日期等信息，就能发布自己的第一篇文章。
 
-> A good writing space should disappear when the reading begins.
+> 好的阅读体验，应当让读者专注于文字本身。
