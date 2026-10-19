@@ -70,7 +70,7 @@ export const site = {
 
 在 `src/content/posts/` 中创建 `hello-world.md`：
 
-```md
+````md
 ---
 title: "我的第一篇文章"
 description: "记录使用 Plain 搭建博客的过程"
@@ -92,9 +92,7 @@ func main() {
     fmt.Println("Hello, Plain!")
 }
 ```
-```
-
-> 上面示例包含嵌套 Markdown 代码围栏；复制时注意外层示例和内部 Go 代码围栏的区别。
+````
 
 文章会进入首页、搜索索引、标签页和 RSS。设置 `draft: true` 可以让未完成文章不发布。建议删除或替换模板自带的 `hello-plain.md` 与 `technical-typography.md` 示例文章。
 
