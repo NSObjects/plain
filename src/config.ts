@@ -2,13 +2,13 @@
 export const site = {
   name: 'Plain',
   locale: 'zh-CN',
-  heading: 'Ideas worth writing down.',
+  heading: '写下值得反复阅读的技术笔记。',
   eyebrow: 'ENGINEERING NOTES',
-  description: 'A thoughtful space for engineering notes and ideas.',
+  description: '关于工程实践、系统设计，以及那些值得长期记录的想法。',
   author: 'Your Name',
   socialImage: '', // Optional absolute URL for the social preview image
   robots: 'index, follow',
-  intro: 'Writing about software engineering, the web, and ideas worth keeping.',
+  intro: '从代码细节到系统架构，保持思考，持续记录。',
   links: { github: 'https://github.com/NSObjects/plain' },
   nav: [ { label: '文章', href: '/' }, { label: '搜索', href: '/search/' }, { label: '标签', href: '/tags/' }, { label: '关于', href: '/about/' } ],
 };
