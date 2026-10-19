@@ -24,8 +24,8 @@ const formatDate = (date: Date) => date.toLocaleDateString(site.locale, { year: 
 
   {featured && <section class="home-featured" aria-labelledby="featured-title">
     <div class="home-section-head">
-      <h2 id="featured-title">近期精选</h2>
-      <span>01 / FEATURED</span>
+      <h2 id="featured-title">最新发布</h2>
+      <span>01 / LATEST</span>
     </div>
     <article class="featured-article">
       <div class="featured-copy">
@@ -42,8 +42,8 @@ const formatDate = (date: Date) => date.toLocaleDateString(site.locale, { year: 
 
   <section class="home-latest" aria-labelledby="latest-title">
     <div class="home-section-head">
-      <h2 id="latest-title">最新文章</h2>
-      <span>共 {posts.length} 篇</span>
+      <h2 id="latest-title">更多文章</h2>
+      <span>共 {recent.length} 篇</span>
     </div>
     <div class="home-post-list">
       {(featured ? recent : posts).map(post => <article class="home-post">
