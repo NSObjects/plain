@@ -13,3 +13,25 @@
 
 /* Search, tags, and compact page introductions */
 .intro.compact{padding:50px 0 30px}.intro.compact h1{margin:10px 0}.search-panel{max-width:760px}.search-panel label{display:block;font-size:14px;margin-bottom:8px}.search-panel input{width:100%;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);font:inherit;padding:12px 14px}.search-status{color:var(--muted);font-size:13px;margin:16px 0}.search-results,.tag-directory{list-style:none;padding:0;max-width:760px}.search-results li,.tag-directory li{padding:18px 0;border-bottom:1px solid var(--line)}.search-results a,.tag-directory a{font-weight:600;text-decoration:none}.search-results p{color:var(--muted);margin:3px 0 0;font-size:14px}.tag-directory li{display:flex;justify-content:space-between;gap:12px}.tag-directory span{color:var(--muted);font-size:13px}
+
+/* v1.1: readable mobile TOC and restrained technical typography */
+.mobile-toc{display:none}
+.prose{font-size:16.5px;line-height:1.85}
+.prose :is(h2,h3){scroll-margin-top:24px}
+.prose a:not(:hover){text-decoration-thickness:1px}
+.prose :is(strong,b){font-weight:650}
+.prose pre{overscroll-behavior-x:contain}
+.prose :is(img,svg){max-width:100%}
+@media(max-width:850px){
+  .toc{display:none}
+  .mobile-toc{display:block;margin:0 0 30px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:0 16px}
+  .mobile-toc summary{cursor:pointer;list-style-position:inside;padding:12px 0;font-size:14px;font-weight:600}
+  .mobile-toc summary span{float:right;color:var(--muted);font-size:12px;font-weight:400}
+  .mobile-toc nav{display:block;padding-bottom:12px}
+  .mobile-toc ul{list-style:none;padding:0;margin:0}
+  .mobile-toc li{padding:6px 0;font-size:14px}
+  .mobile-toc li.toc-sub{padding-left:18px}
+  .mobile-toc a{color:var(--muted);text-decoration:none}
+  .mobile-toc a:hover{color:var(--accent)}
+}
+@media(max-width:600px){.prose{font-size:16px}}

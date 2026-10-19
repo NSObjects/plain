@@ -37,6 +37,16 @@ try {
     assert.equal(await page.getByRole('button', { name:'复制代码' }).count() > 0, true, 'Code copy control exists');
     const articleOverflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1);
     assert.equal(articleOverflow, false, `${name} article overflows horizontally`);
+    if (name === 'mobile') {
+      const mobileToc = page.locator('.mobile-toc');
+      assert.equal(await mobileToc.isVisible(), true, 'Mobile TOC must be visible before article body');
+      await mobileToc.locator('summary').click();
+      assert.equal(await mobileToc.evaluate(el => el.open), true, 'Mobile TOC should expand');
+      await mobileToc.locator('a').first().click();
+      assert.equal(await mobileToc.evaluate(el => el.open), false, 'Mobile TOC should close after navigating');
+    } else {
+      assert.equal(await page.locator('.toc').isVisible(), true, 'Desktop sticky TOC should be visible');
+    }
     await page.screenshot({ path: `screenshots/${name}-article.png`, fullPage: true });
     await page.close();
   }
