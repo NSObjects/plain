@@ -1,0 +1,45 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', ({ data }) => !data.draft);
+  return posts.map(post => ({params:{slug:post.id},props:{post}}));
+}
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const base = import.meta.env.BASE_URL;
+---
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <article class="article">
+    <a class="back-link" href={base}>← 返回文章列表</a>
+    <header class="article-header">
+      <div class="post-meta"><time datetime={post.data.publishedAt.toISOString()}>{post.data.publishedAt.toLocaleDateString('en-US',{dateStyle:'long'})}</time>{post.data.updatedAt && <span>· 更新于 {post.data.updatedAt.toLocaleDateString('en-US',{dateStyle:'medium'})}</span>}</div>
+      <h1>{post.data.title}</h1>
+      <p class="article-description">{post.data.description}</p>
+      <div class="tag-list">{post.data.tags.map(tag => <span class="tag">{tag}</span>)}</div>
+    </header>
+    <div class="article-layout">
+      <div class="prose"><Content /></div>
+      {headings.length > 0 && <aside class="toc" aria-label="Table of contents"><strong>文章目录</strong><ul>{headings.filter(h=>h.depth===2||h.depth===3).map(h=><li class:list={['toc-item',{'toc-sub':h.depth===3}]}><a href={'#'+h.slug}>{h.text}</a></li>)}</ul></aside>}
+    </div>
+  </article>
+  <script>
+    document.querySelectorAll('.prose pre').forEach(pre => {
+      const code = pre.querySelector('code');
+      if (!code) return;
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'copy-code';
+      button.textContent = '复制';
+      button.setAttribute('aria-label', '复制代码');
+      button.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(code.textContent ?? '');
+          button.textContent = '已复制';
+          window.setTimeout(() => { button.textContent = '复制'; }, 1600);
+        } catch { button.textContent = '复制失败'; }
+      });
+      pre.append(button);
+    });
+  </script>
+</BaseLayout>

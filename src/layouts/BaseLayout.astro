@@ -1,0 +1,44 @@
+---
+import { site } from '../config';
+import '../styles/global.css';
+const { title, description = site.description } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const url = new URL(Astro.url.pathname, Astro.site);
+const pageTitle = title ? `${title} | ${site.name}` : site.name;
+---
+<!doctype html>
+<html lang={site.locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#fafafa" />
+    <link rel="canonical" href={url} />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href={base + "rss.xml"} />
+    <title>{pageTitle}</title>
+    <script is:inline>
+      (() => { try { const t = localStorage.getItem('plain-theme'); if (t === 'dark' || (t !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.dataset.theme='dark'; } catch {} })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳转到正文</a>
+    <header class="site-header wrap">
+      <a class="brand" href={base} aria-label={site.name + ' home'}>{site.name}<span class="brand-dot">.</span></a>
+      <nav aria-label="Main navigation">
+        {site.nav.map(item => <a href={base + item.href.replace(/^\//,'')}>{item.label}</a>)}
+        <a class="icon-link" href={site.links.github} aria-label="GitHub" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <button class="theme-toggle" type="button" aria-label="切换深浅色模式" title="切换深浅色模式">◐</button>
+      </nav>
+    </header>
+    <main id="main" class="wrap"><slot /></main>
+    <footer class="site-footer wrap"><span>© {new Date().getFullYear()} {site.author}</span><span>Built with Astro · Plain</span></footer>
+    <script>
+      document.querySelector('.theme-toggle')?.addEventListener('click', () => {
+        const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = next;
+        try { localStorage.setItem('plain-theme', next); } catch {}
+      });
+    </script>
+  </body>
+</html>

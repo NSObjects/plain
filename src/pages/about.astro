@@ -1,0 +1,5 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config';
+---
+<BaseLayout title="About"><section class="intro"><p class="eyebrow">ABOUT</p><h1>About this site</h1><p>{site.description}</p></section><div class="prose"><p>This is a starter for an independent developer blog. Change the site information in <code>src/config.ts</code>, write posts in <code>src/content/posts/</code>, and make the site yours.</p><p>Plain keeps the interface quiet so ideas, examples, and code can take center stage.</p></div></BaseLayout>
