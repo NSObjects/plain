@@ -29,7 +29,7 @@ try {
     await page.goto(root + 'posts/hello-plain/', {waitUntil: 'networkidle'});
     await page.getByRole('button', { name: 'Copy code' }).waitFor();
     await page.getByRole('link', { name: 'Back to top' }).waitFor();
-    await page.getByText('Table of contents').first().waitFor();
+    assert.ok(await page.locator('.toc, .mobile-toc').count() > 0, 'Article contents navigation exists');
     assert.ok(!(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)), 'English article overflows');
     await page.close();
   }
