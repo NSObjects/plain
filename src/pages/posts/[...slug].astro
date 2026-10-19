@@ -13,7 +13,7 @@ const base = import.meta.env.BASE_URL;
 const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
 ---
 <BaseLayout title={post.data.title} description={post.data.description}>
-  <article class="article">
+  <article class="article" data-copy={t.common.copy} data-copy-label={t.common.copyCode} data-copied={t.common.copied} data-copy-failed={t.common.copyFailed}>
     <a class="back-link" href={base}>← {t.common.back}</a>
     <header class="article-header">
       <div class="post-meta"><time datetime={post.data.publishedAt.toISOString()}>{post.data.publishedAt.toLocaleDateString(site.locale,{dateStyle:'long'})}</time>{post.data.updatedAt && <span>· {t.common.updated} {post.data.updatedAt.toLocaleDateString(site.locale,{dateStyle:'medium'})}</span>}</div>
@@ -28,7 +28,12 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
     </div>
     <a class="back-to-top" href="#main" aria-label={t.common.top}>↑ {t.common.top}</a>
   </article>
-  <script define:vars={{ copyText: t.common.copy, copyLabel: t.common.copyCode, copiedText: t.common.copied, copyFailedText: t.common.copyFailed }}>
+  <script>
+    const article = document.querySelector<HTMLElement>('.article');
+    const copyText = article?.dataset.copy ?? 'Copy';
+    const copyLabel = article?.dataset.copyLabel ?? 'Copy code';
+    const copiedText = article?.dataset.copied ?? 'Copied';
+    const copyFailedText = article?.dataset.copyFailed ?? 'Copy failed';
     const headings = [...document.querySelectorAll<HTMLElement>('.prose h2[id], .prose h3[id]')];
     const tocLinks = [...document.querySelectorAll<HTMLAnchorElement>('.toc a[href^="#"], .mobile-toc a[href^="#"]')];
     const updateActive = () => {
