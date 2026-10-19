@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { site } from '../../config';
+import { t } from '../../i18n';
 export async function getStaticPaths() {
   const posts = await getCollection('posts', ({ data }) => !data.draft);
   return posts.map(post => ({params:{slug:post.id},props:{post}}));
@@ -13,21 +14,21 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
 ---
 <BaseLayout title={post.data.title} description={post.data.description}>
   <article class="article">
-    <a class="back-link" href={base}>← 返回文章列表</a>
+    <a class="back-link" href={base}>← {t.common.back}</a>
     <header class="article-header">
-      <div class="post-meta"><time datetime={post.data.publishedAt.toISOString()}>{post.data.publishedAt.toLocaleDateString(site.locale,{dateStyle:'long'})}</time>{post.data.updatedAt && <span>· 更新于 {post.data.updatedAt.toLocaleDateString(site.locale,{dateStyle:'medium'})}</span>}</div>
+      <div class="post-meta"><time datetime={post.data.publishedAt.toISOString()}>{post.data.publishedAt.toLocaleDateString(site.locale,{dateStyle:'long'})}</time>{post.data.updatedAt && <span>· {t.common.updated} {post.data.updatedAt.toLocaleDateString(site.locale,{dateStyle:'medium'})}</span>}</div>
       <h1>{post.data.title}</h1>
       <p class="article-description">{post.data.description}</p>
       <div class="tag-list">{post.data.tags.map(tag => <span class="tag">{tag}</span>)}</div>
     </header>
-    {tocHeadings.length > 0 && <details class="mobile-toc"><summary>本文目录 <span>{tocHeadings.length} 个章节</span></summary><nav aria-label="移动端文章目录"><ul>{tocHeadings.map(h=><li class:list={[{'toc-sub':h.depth===3}]}><a href={'#'+h.slug}>{h.text}</a></li>)}</ul></nav></details>}
+    {tocHeadings.length > 0 && <details class="mobile-toc"><summary>{t.common.mobileToc} <span>{t.common.sections(tocHeadings.length)}</span></summary><nav aria-label={t.common.toc}><ul>{tocHeadings.map(h=><li class:list={[{'toc-sub':h.depth===3}]}><a href={'#'+h.slug}>{h.text}</a></li>)}</ul></nav></details>}
     <div class="article-layout">
       <div class="prose"><Content /></div>
-      {tocHeadings.length > 0 && <aside class="toc" aria-label="文章目录"><strong>文章目录</strong><ul>{tocHeadings.map(h=><li class:list={['toc-item',{'toc-sub':h.depth===3}]}><a href={'#'+h.slug}>{h.text}</a></li>)}</ul></aside>}
+      {tocHeadings.length > 0 && <aside class="toc" aria-label={t.common.toc}><strong>{t.common.toc}</strong><ul>{tocHeadings.map(h=><li class:list={['toc-item',{'toc-sub':h.depth===3}]}><a href={'#'+h.slug}>{h.text}</a></li>)}</ul></aside>}
     </div>
-    <a class="back-to-top" href="#main" aria-label="返回顶部">↑ 返回顶部</a>
+    <a class="back-to-top" href="#main" aria-label={t.common.top}>↑ {t.common.top}</a>
   </article>
-  <script>
+  <script define:vars={{ copyText: t.common.copy, copyLabel: t.common.copyCode, copiedText: t.common.copied, copyFailedText: t.common.copyFailed }}>
     const headings = [...document.querySelectorAll<HTMLElement>('.prose h2[id], .prose h3[id]')];
     const tocLinks = [...document.querySelectorAll<HTMLAnchorElement>('.toc a[href^="#"], .mobile-toc a[href^="#"]')];
     const updateActive = () => {
@@ -65,14 +66,14 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'copy-code';
-      button.textContent = '复制';
-      button.setAttribute('aria-label', '复制代码');
+      button.textContent = copyText;
+      button.setAttribute('aria-label', copyLabel);
       button.addEventListener('click', async () => {
         try {
           await navigator.clipboard.writeText(code.textContent ?? '');
-          button.textContent = '已复制';
-          window.setTimeout(() => { button.textContent = '复制'; }, 1600);
-        } catch { button.textContent = '复制失败'; }
+          button.textContent = copiedText;
+          window.setTimeout(() => { button.textContent = copyText; }, 1600);
+        } catch { button.textContent = copyFailedText; }
       });
       pre.append(button);
     });

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../config';
+import { t } from '../i18n';
 import { getCollection } from 'astro:content';
 const posts = (await getCollection('posts', ({ data }) => !data.draft))
   .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
@@ -14,9 +15,9 @@ const formatDate = (date: Date) => date.toLocaleDateString(site.locale, { year: 
       <p class="eyebrow">{site.eyebrow}</p>
       <h1 id="home-title">{site.heading}</h1>
       <p class="home-lead">{site.intro}</p>
-      <a class="home-text-link" href={base + 'about/'}>了解更多 <span aria-hidden="true">↗</span></a>
+      <a class="home-text-link" href={base + 'about/'}>{t.home.about} <span aria-hidden="true">↗</span></a>
     </div>
-    <div class="home-hero-aside" aria-label="博客介绍">
+    <div class="home-hero-aside" aria-label={t.home.blogIntro}>
       <span class="home-aside-mark" aria-hidden="true">{site.name.slice(0, 1).toLocaleUpperCase(site.locale)}.</span>
       <p>{site.description}</p>
     </div>
@@ -24,17 +25,17 @@ const formatDate = (date: Date) => date.toLocaleDateString(site.locale, { year: 
 
   {featured && <section class="home-featured" aria-labelledby="featured-title">
     <div class="home-section-head">
-      <h2 id="featured-title">最新发布</h2>
-      <span>最新一篇</span>
+      <h2 id="featured-title">{t.home.latest}</h2>
+      <span>{t.home.latestOne}</span>
     </div>
     <article class="featured-article">
       <div class="featured-copy">
         <div class="post-meta"><time datetime={featured.data.publishedAt.toISOString()}>{formatDate(featured.data.publishedAt)}</time></div>
         <h3><a href={base + 'posts/' + featured.id + '/'}>{featured.data.title}</a></h3>
         <p>{featured.data.description}</p>
-        <a class="home-text-link" href={base + 'posts/' + featured.id + '/'}>阅读文章 <span aria-hidden="true">→</span></a>
+        <a class="home-text-link" href={base + 'posts/' + featured.id + '/'}>{t.home.read} <span aria-hidden="true">→</span></a>
       </div>
-      <div class="featured-topics" aria-label="文章标签">
+      <div class="featured-topics" aria-label={t.home.tags}>
         {featured.data.tags.map(tag => <span class="tag">{tag}</span>)}
       </div>
     </article>
@@ -42,8 +43,8 @@ const formatDate = (date: Date) => date.toLocaleDateString(site.locale, { year: 
 
   <section class="home-latest" aria-labelledby="latest-title">
     <div class="home-section-head">
-      <h2 id="latest-title">更多文章</h2>
-      <span>共 {recent.length} 篇</span>
+      <h2 id="latest-title">{t.home.more}</h2>
+      <span>{t.home.total(recent.length)}</span>
     </div>
     <div class="home-post-list">
       {(featured ? recent : posts).map(post => <article class="home-post">
@@ -53,11 +54,11 @@ const formatDate = (date: Date) => date.toLocaleDateString(site.locale, { year: 
           <p>{post.data.description}</p>
           <div class="home-post-tags">{post.data.tags.map(tag => <span>{tag}</span>)}</div>
         </div>
-        <a class="home-post-arrow" href={base + 'posts/' + post.id + '/'} aria-label={'阅读 ' + post.data.title}>↗</a>
+        <a class="home-post-arrow" href={base + 'posts/' + post.id + '/'} aria-label={t.home.open(post.data.title)}>↗</a>
       </article>)}
-      {posts.length === 0 && <p class="home-empty">文章即将发布，敬请期待。</p>}
-      {featured && recent.length === 0 && <p class="home-empty">更多文章正在整理中。</p>}
+      {posts.length === 0 && <p class="home-empty">{t.home.empty}</p>}
+      {featured && recent.length === 0 && <p class="home-empty">{t.home.moreEmpty}</p>}
     </div>
-    <div class="home-index-link"><a class="home-text-link" href={base + 'tags/'}>按主题浏览 <span aria-hidden="true">→</span></a></div>
+    <div class="home-index-link"><a class="home-text-link" href={base + 'tags/'}>{t.home.browse} <span aria-hidden="true">→</span></a></div>
   </section>
 </BaseLayout>

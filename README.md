@@ -48,23 +48,23 @@ export const site = {
   name: '我的技术博客',
   locale: 'zh-CN',
   heading: '记录技术与思考',
-  eyebrow: 'ENGINEERING NOTES',
+  eyebrow: '技术笔记',
   description: '分享 Go、系统架构与工程实践',
-  author: 'Your Name',
+  author: '博客作者',
   socialImage: '', // 可选：社交分享图片的公开 URL
   robots: 'index, follow',
   intro: '记录软件工程中的实践与经验。',
   links: { github: 'https://github.com/USERNAME' },
   nav: [
-    { label: '文章', href: '/' },
-    { label: '搜索', href: '/search/' },
-    { label: '标签', href: '/tags/' },
-    { label: '关于', href: '/about/' },
+    { key: 'posts', href: '/' },
+    { key: 'search', href: '/search/' },
+    { key: 'tags', href: '/tags/' },
+    { key: 'about', href: '/about/' },
   ],
 };
 ```
 
-`locale` 会影响文章日期格式和页面语言属性，但**不会自动翻译界面**。如需修改关于页正文，请编辑 `src/pages/about.astro`。
+`locale` 支持 `zh-CN` 和 `en-US`，构建时自动切换导航、按钮、搜索、标签、关于页、页脚以及日期格式；文章正文和自定义的 `heading`、`intro`、`description` 保留原文，请作者自行填写目标语言。不会添加语言切换按钮或语言 URL 前缀。自定义导航可设置 `label` 覆盖默认翻译。
 
 ## 4. 写第一篇文章
 

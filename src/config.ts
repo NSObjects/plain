@@ -10,5 +10,5 @@ export const site = {
   robots: 'index, follow',
   intro: '从代码细节到系统架构，保持思考，持续记录。',
   links: { github: 'https://github.com/NSObjects/plain' },
-  nav: [ { label: '文章', href: '/' }, { label: '搜索', href: '/search/' }, { label: '标签', href: '/tags/' }, { label: '关于', href: '/about/' } ],
+  nav: [ { key: 'posts', href: '/' }, { key: 'search', href: '/search/' }, { key: 'tags', href: '/tags/' }, { key: 'about', href: '/about/' } ],
 };
