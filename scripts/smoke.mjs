@@ -5,7 +5,7 @@ import { join } from 'node:path';
 const file = (path) => readFileSync(join('dist', path), 'utf8');
 const required = ['index.html', 'about/index.html', 'search/index.html',
   'tags/index.html', 'tags/Getting started/index.html',
-  'posts/hello-plain/index.html', 'search-index.json', 'rss.xml'];
+  'posts/hello-plain/index.html', 'posts/technical-typography/index.html', 'search-index.json', 'rss.xml'];
 for (const path of required) {
   assert.ok(existsSync(join('dist', path)), `Missing generated file: ${path}`);
 }
@@ -13,6 +13,10 @@ const home = file('index.html');
 const article = file('posts/hello-plain/index.html');
 const search = JSON.parse(file('search-index.json'));
 const rss = file('rss.xml');
+const bilingual = file('posts/technical-typography/index.html');
+assert.match(bilingual, /技术文章排版示例/, 'Chinese heading should render');
+assert.match(bilingual, /<table>/, 'Technical table should render');
+assert.match(bilingual, /context\.Context/, 'Inline code should render');
 assert.match(home, /Welcome to Plain/, 'The published article should appear on the homepage');
 assert.match(article, /Hello, Plain!/, 'Go code example should render');
 assert.match(file('tags/index.html'), /tags\/Getting%20started\//, 'Tag link should URL-encode spaces');

@@ -55,6 +55,11 @@ try {
     await page.waitForTimeout(150);
     assert.equal(await page.locator('.toc a.active, .mobile-toc a.active').count() > 0, true, 'Current section should be highlighted');
     await page.screenshot({ path: `screenshots/${name}-article.png`, fullPage: true });
+    await page.goto(root + 'posts/technical-typography/', {waitUntil: 'networkidle'});
+    assert.equal(await page.locator('.prose table').count(), 1, 'Technical table should render');
+    assert.equal(await page.locator('.prose pre').count(), 2, 'Code blocks should render');
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false, `${name} bilingual article overflows horizontally`);
+    await page.screenshot({ path: `screenshots/${name}-typography.png`, fullPage: true });
     await page.close();
   }
   console.log('Chromium browser checks passed (desktop + mobile).');

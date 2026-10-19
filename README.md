@@ -8,8 +8,10 @@ Plain is a reusable developer blog starter, not a ready-made personal site. It f
 
 - Fast static Astro pages, Markdown content collections and Shiki syntax highlighting
 - Comfortable responsive typography, article table of contents and dark mode
-- Configurable site information and navigation
-- Sample article and About page
+- Configurable site title, intro, locale, heading, navigation and author
+- Chinese and English technical examples, responsive About page
+- Lightweight search, tag pages and RSS feed
+- Code copy, language labels, active article TOC and mobile collapsible TOC
 - GitHub Pages deployment workflow
 
 ## Getting started
@@ -23,7 +25,9 @@ npm run dev
 
 Visit http://localhost:4321.
 
-Edit `src/config.ts` to customize the title, intro, author, GitHub link and navigation. Replace the sample post in `src/content/posts/`.
+Edit `src/config.ts` to customize the title, locale, heading, intro, author, GitHub link and navigation. Set `site.locale` to `zh-CN` or `en-US` for article date formatting. Navigation labels and About page copy are currently Chinese by default and can be edited in the corresponding components.
+
+You can use **Use this template** on GitHub after enabling the repository's template setting, or copy the repository. Replace the included sample posts before publishing your own content. Replace the sample post in `src/content/posts/`.
 
 ```md
 ---
@@ -62,12 +66,23 @@ For a repository named `username.github.io`, Astro uses a root URL. For a projec
 
 - [x] Home, posts, About and table of contents
 - [x] Dark mode and Markdown syntax highlighting
-- [ ] Search, tagging and archives
-- [ ] RSS, sitemap and social metadata
-- [ ] Copy code and image zoom
+- [x] Search by title, description and tags; tag pages and RSS
+- [x] Copy code, language labels and active table of contents
+- [ ] Archive view, sitemap and social metadata
+- [ ] Full-body search and image zoom
 - [ ] Mermaid support and complete bilingual typography review
 - [ ] Browser visual regression and accessibility checks
 
 ## License
 
 MIT
+
+## Quality checks
+
+```bash
+npm run check
+npm run build
+node scripts/smoke.mjs
+```
+
+GitHub Actions additionally runs Chromium against mobile and desktop viewports. The included bilingual sample articles exercise code, tables, links and mixed CJK/Latin typography. CI screenshots are attached as workflow artifacts.
