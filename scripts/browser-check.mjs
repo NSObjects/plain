@@ -49,6 +49,11 @@ try {
     } else {
       assert.equal(await page.locator('.toc').isVisible(), true, 'Desktop sticky TOC should be visible');
     }
+    const topLink = page.getByRole('link', { name: '返回顶部' });
+    assert.equal(await topLink.isVisible(), true, 'Back-to-top link should be visible');
+    await page.locator('.prose h2[id]').first().scrollIntoViewIfNeeded();
+    await page.waitForTimeout(150);
+    assert.equal(await page.locator('.toc a.active, .mobile-toc a.active').count() > 0, true, 'Current section should be highlighted');
     await page.screenshot({ path: `screenshots/${name}-article.png`, fullPage: true });
     await page.close();
   }

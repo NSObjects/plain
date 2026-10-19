@@ -24,8 +24,29 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
       <div class="prose"><Content /></div>
       {tocHeadings.length > 0 && <aside class="toc" aria-label="文章目录"><strong>文章目录</strong><ul>{tocHeadings.map(h=><li class:list={['toc-item',{'toc-sub':h.depth===3}]}><a href={'#'+h.slug}>{h.text}</a></li>)}</ul></aside>}
     </div>
+    <a class="back-to-top" href="#main" aria-label="返回顶部">↑ 返回顶部</a>
   </article>
   <script>
+    const headings = [...document.querySelectorAll<HTMLElement>('.prose h2[id], .prose h3[id]')];
+    const tocLinks = [...document.querySelectorAll<HTMLAnchorElement>('.toc a[href^="#"], .mobile-toc a[href^="#"]')];
+    const updateActive = () => {
+      const cutoff = 130;
+      let current = headings[0]?.id;
+      for (const heading of headings) {
+        if (heading.getBoundingClientRect().top <= cutoff) current = heading.id;
+      }
+      for (const link of tocLinks) {
+        const active = current && decodeURIComponent(link.hash.slice(1)) === current;
+        link.classList.toggle('active', Boolean(active));
+        if (active) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      }
+    };
+    if (headings.length) {
+      window.addEventListener('scroll', updateActive, { passive: true });
+      window.addEventListener('hashchange', updateActive);
+      updateActive();
+    }
     document.querySelectorAll<HTMLDetailsElement>('.mobile-toc').forEach(toc => {
       toc.querySelectorAll('a[href^="#"]').forEach(link => link.addEventListener('click', () => { toc.open = false; }));
     });

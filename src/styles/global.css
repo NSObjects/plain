@@ -41,3 +41,10 @@
 .prose pre .code-language{position:absolute;top:12px;left:17px;font:600 11px/24px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.035em;color:var(--muted);pointer-events:none}
 .prose pre .copy-code{z-index:1}
 @media(max-width:600px){.prose pre .code-language{left:14px}}
+
+/* V1.3: unobtrusive navigation feedback */
+.toc a.active,.mobile-toc a.active{color:var(--accent);font-weight:600}
+.back-to-top{display:inline-flex;align-items:center;margin-top:56px;padding:8px 0;font-size:13px;color:var(--muted);text-decoration:none}
+.back-to-top:hover{color:var(--accent)}
+.prose h2[id],.prose h3[id]{scroll-margin-top:36px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
