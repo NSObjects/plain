@@ -33,7 +33,7 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
       const code = pre.querySelector('code');
       if (!code) return;
       const classNames = code.className.split(/\s+/);
-      const language = classNames.find(name => name.startsWith('language-'))?.slice(9);
+      const language = pre.getAttribute('data-language') || classNames.find(name => name.startsWith('language-'))?.slice(9);
       if (language) {
         const label = document.createElement('span');
         label.className = 'code-language';
