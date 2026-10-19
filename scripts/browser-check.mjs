@@ -42,6 +42,29 @@ try {
     assert.equal(await page.locator('.home-post').count(), 1, 'Other published posts should appear in the recent list');
     assert.equal(await page.locator('.home-post a[href*="/posts/"]').first().count(), 1, 'Latest article link should exist');
     await page.screenshot({ path: `screenshots/${name}-home.png`, fullPage: true });
+    // Visual stress fixture is injected only in the test browser, never published.
+    await page.evaluate(() => {
+      const list = document.querySelector('.home-post-list');
+      const original = list.querySelector('.home-post');
+      if (!original) throw new Error('Missing post row fixture');
+      const longTitle = '深入理解高并发系统中Goroutine调度与DistributedTracing_'.repeat(4);
+      for (let i = 0; i < 8; i++) {
+        const row = original.cloneNode(true);
+        row.querySelector('h3 a').textContent = i % 2 === 0 ? longTitle : '实践记录：从需求评审到可观测性改造的完整工程过程';
+        row.querySelector('p').textContent = ('从数据库事务、缓存一致性到系统稳定性，记录真实工程决策。').repeat(5);
+        row.querySelector('.home-post-tags').textContent = '';
+        for (let j = 0; j < 9; j++) {
+          const tag = document.createElement('span');
+          tag.textContent = j === 0 ? 'ExtremelyLongUnbrokenTopicNameForLayoutRegressionTesting' : '系统工程-' + j;
+          row.querySelector('.home-post-tags').append(tag);
+        }
+        list.append(row);
+      }
+    });
+    assert.equal(await page.locator('.home-post').count(), 9, 'Stress fixture renders nine recent articles');
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false, `${name} homepage with long titles and tags must not overflow`);
+    await page.screenshot({ path: `screenshots/${name}-home-stress.png`, fullPage: true });
+    await page.reload({ waitUntil: 'networkidle' });
     await page.getByRole('button', { name: '切换深浅色模式' }).click();
     assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark', 'Theme toggle works');
     await page.goto(root + 'posts/hello-plain/', {waitUntil:'networkidle'});
