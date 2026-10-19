@@ -64,3 +64,8 @@
 .home-empty{color:var(--muted);font-size:14px;padding:20px 0}
 @media(max-width:850px){.home-hero{grid-template-columns:1fr;gap:35px;padding:70px 0}.home-hero-aside{max-width:380px}.home-post{grid-template-columns:115px minmax(0,1fr) 25px}}
 @media(max-width:600px){.home-hero{padding:57px 0 55px;gap:30px}.home-hero h1{font-size:37px}.home-lead{font-size:16px}.featured-article{display:block;padding:25px 0 32px}.featured-topics{justify-content:flex-start;max-width:none;margin-top:24px}.home-latest{padding-top:48px}.home-post{grid-template-columns:minmax(0,1fr) 24px;gap:10px}.home-post-date{grid-column:1/-1;padding:0}.home-post-body{grid-column:1}.home-post-arrow{grid-column:2;grid-row:2}.home-post h3{font-size:19px}}
+
+/* Keep unusually long titles and tag labels inside narrow mobile viewports. */
+.featured-copy,.home-post-body{min-width:0}
+.featured-copy h3,.home-post h3,.home-post-tags span,.featured-topics .tag{overflow-wrap:anywhere}
+.home-post-tags span{max-width:100%}
