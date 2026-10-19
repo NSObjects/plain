@@ -1,5 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../config';
+import { t } from '../i18n';
 ---
-<BaseLayout title="关于"><section class="intro"><p class="eyebrow">关于博客</p><h1>关于本站</h1><p>{site.description}</p></section><div class="prose"><p>Plain 是一套面向开发者的独立博客主题。请在 <code>src/config.ts</code> 中修改站点信息，并在 <code>src/content/posts/</code> 中编写自己的文章。</p><p>Plain 保持界面克制，让文章、示例和代码成为阅读的主角。</p></div></BaseLayout>
+<BaseLayout title={t.about.title}>
+  <section class="intro"><p class="eyebrow">{t.about.eyebrow}</p><h1>{t.about.heading}</h1><p>{site.description}</p></section>
+  <div class="prose"><p>{t.about.guide} <code>src/config.ts</code> {t.about.guideAfter} <code>src/content/posts/</code> {t.about.guideEnd}</p><p>{t.about.philosophy}</p></div>
+</BaseLayout>

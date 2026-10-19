@@ -1,13 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { t } from '../i18n';
 const base = import.meta.env.BASE_URL;
 ---
-<BaseLayout title="搜索">
-  <section class="intro compact"><h1>搜索文章</h1><p>按标题、摘要或标签快速查找内容。</p></section>
+<BaseLayout title={t.search.title}>
+  <section class="intro compact"><h1>{t.search.heading}</h1><p>{t.search.intro}</p></section>
   <div class="search-panel">
-    <label for="query">关键词</label>
-    <input id="query" type="search" placeholder="例如 Go、Agent、架构…" autocomplete="off" data-index={base + 'search-index.json'} />
-    <p class="search-status" role="status" aria-live="polite">输入关键词开始搜索</p>
+    <label for="query">{t.search.keyword}</label>
+    <input id="query" type="search" placeholder={t.search.placeholder} autocomplete="off" data-index={base + 'search-index.json'} data-empty={t.search.prompt} data-error={t.search.failure} data-found-template={t.search.found(987654)} />
+    <p class="search-status" role="status" aria-live="polite">{t.search.prompt}</p>
     <ul id="results" class="search-results"></ul>
   </div>
   <script>
@@ -15,18 +16,21 @@ const base = import.meta.env.BASE_URL;
     const results = document.querySelector<HTMLUListElement>('#results');
     const status = document.querySelector<HTMLElement>('.search-status');
     if(input && results && status){
+      const prompt = input.dataset.empty ?? '';
+      const failure = input.dataset.error ?? '';
+      const foundLabel = (n: number) => (input.dataset.foundTemplate ?? '').replace('987654', String(n));
       let posts: Array<{title:string;description:string;tags:string[];url:string;date:string}> = [];
       let loadError = false;
       fetch(input.dataset.index!).then(r=>{if(!r.ok)throw new Error('index'); return r.json()})
         .then(data=>{posts=data; render()})
-        .catch(()=>{loadError=true; status.textContent='索引加载失败，请刷新重试。'});
+        .catch(()=>{loadError=true; status.textContent=failure});
       const render=()=>{
         if(loadError)return;
         const q=input.value.trim().toLocaleLowerCase();
         results.replaceChildren();
-        if(!q){status.textContent='输入关键词开始搜索';return}
+        if(!q){status.textContent=prompt;return}
         const match=posts.filter(p=>[p.title,p.description,...p.tags].some(s=>s.toLocaleLowerCase().includes(q)));
-        status.textContent=`找到 ${match.length} 篇文章`;
+        status.textContent=foundLabel(match.length);
         for(const p of match){
           const li=document.createElement('li'),a=document.createElement('a'),desc=document.createElement('p');
           a.href=p.url;a.textContent=p.title;desc.textContent=p.description;li.append(a,desc);results.append(li);

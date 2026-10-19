@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+const read = p => readFileSync('dist/' + p,'utf8');
+const home=read('index.html'),search=read('search/index.html'),about=read('about/index.html'),tags=read('tags/index.html'),post=read('posts/hello-plain/index.html');
+for(const [label,html] of [['home',home],['search',search],['about',about],['tags',tags],['post',post]]) assert.match(html, /<html lang="en-US"/, label);
+for(const fragment of ['Latest post','More articles','Learn more','Browse by topic','Main navigation','Built with Astro','Posts','Search','Tags','About']) assert.ok(home.includes(fragment),fragment);
+assert.ok(search.includes('Search posts') && search.includes('Enter a keyword to search'));
+assert.ok(about.includes('About this site'));
+assert.ok(tags.includes('Explore posts by topic'));
+assert.ok(post.includes('Table of contents') && post.includes('Copy code'));
+console.log('English locale smoke passed.');

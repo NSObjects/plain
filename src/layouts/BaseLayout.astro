@@ -1,5 +1,6 @@
 ---
 import { site } from '../config';
+import { t } from '../i18n';
 import '../styles/global.css';
 const { title, description = site.description } = Astro.props;
 const base = import.meta.env.BASE_URL;
@@ -34,17 +35,17 @@ const socialImage = site.socialImage ? new URL(site.socialImage, Astro.site).hre
     </script>
   </head>
   <body>
-    <a class="skip-link" href="#main">跳转到正文</a>
+    <a class="skip-link" href="#main">{t.common.skip}</a>
     <header class="site-header wrap">
-      <a class="brand" href={base} aria-label={site.name + ' 首页'}>{site.name}<span class="brand-dot">.</span></a>
-      <nav aria-label="主导航">
-        {site.nav.map(item => <a href={base + item.href.replace(/^\//,'')}>{item.label}</a>)}
+      <a class="brand" href={base} aria-label={site.name + ' ' + t.common.home}>{site.name}<span class="brand-dot">.</span></a>
+      <nav aria-label={t.common.mainNav}>
+        {site.nav.map(item => <a href={base + item.href.replace(/^\//,'')}>{'label' in item ? item.label : t.nav[item.key as keyof typeof t.nav]}</a>)}
         <a class="icon-link" href={site.links.github} aria-label="GitHub" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-        <button class="theme-toggle" type="button" aria-label="切换深浅色模式" title="切换深浅色模式">◐</button>
+        <button class="theme-toggle" type="button" aria-label={t.common.theme} title={t.common.theme}>◐</button>
       </nav>
     </header>
     <main id="main" class="wrap"><slot /></main>
-    <footer class="site-footer wrap"><span>© {new Date().getFullYear()} {site.author}</span><span>基于 Astro 构建 · Plain</span></footer>
+    <footer class="site-footer wrap"><span>© {new Date().getFullYear()} {site.author}</span><span>{t.common.footer}</span></footer>
     <script>
       document.querySelector('.theme-toggle')?.addEventListener('click', () => {
         const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
