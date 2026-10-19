@@ -7,7 +7,7 @@ const url = new URL(Astro.url.pathname, Astro.site);
 const pageTitle = title ? `${title} | ${site.name}` : site.name;
 ---
 <!doctype html>
-<html lang="en">
+<html lang={site.locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -21,13 +21,13 @@ const pageTitle = title ? `${title} | ${site.name}` : site.name;
     </script>
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main">跳转到正文</a>
     <header class="site-header wrap">
       <a class="brand" href={base} aria-label={site.name + ' home'}>{site.name}<span class="brand-dot">.</span></a>
       <nav aria-label="Main navigation">
         {site.nav.map(item => <a href={base + item.href.replace(/^\//,'')}>{item.label}</a>)}
         <a class="icon-link" href={site.links.github} aria-label="GitHub" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-        <button class="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">◐</button>
+        <button class="theme-toggle" type="button" aria-label="切换深浅色模式" title="切换深浅色模式">◐</button>
       </nav>
     </header>
     <main id="main" class="wrap"><slot /></main>
