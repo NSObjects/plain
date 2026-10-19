@@ -11,6 +11,13 @@ for (const path of required) {
 }
 const home = file('index.html');
 const article = file('posts/hello-plain/index.html');
+for (const [name, html] of [['home', home], ['article', article]]) {
+  assert.match(html, /property="og:title"/, `${name} should include Open Graph title`);
+  assert.match(html, /property="og:description"/, `${name} should include Open Graph description`);
+  assert.match(html, /property="og:url"/, `${name} should include canonical Open Graph URL`);
+  assert.match(html, /name="twitter:card"/, `${name} should include Twitter card metadata`);
+  assert.match(html, /name="robots"/, `${name} should declare robots preference`);
+}
 const search = JSON.parse(file('search-index.json'));
 const rss = file('rss.xml');
 const bilingual = file('posts/technical-typography/index.html');
