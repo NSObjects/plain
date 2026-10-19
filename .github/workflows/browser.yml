@@ -18,6 +18,13 @@ jobs:
       - run: npm run build
       - name: Test browser behavior and capture screenshots
         run: node scripts/browser-check.mjs
+      - name: Browser-check English locale
+        shell: bash
+        run: |
+          sed -i "s/locale: 'zh-CN'/locale: 'en-US'/" src/config.ts
+          npm run build
+          node scripts/i18n-smoke.mjs
+          node scripts/i18n-browser-check.mjs
       - name: Upload visual evidence
         if: always()
         uses: actions/upload-artifact@v4
