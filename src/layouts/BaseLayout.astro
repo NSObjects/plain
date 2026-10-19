@@ -39,7 +39,7 @@ const socialImage = site.socialImage ? new URL(site.socialImage, Astro.site).hre
     <header class="site-header wrap">
       <a class="brand" href={base} aria-label={site.name + ' ' + t.common.home}>{site.name}<span class="brand-dot">.</span></a>
       <nav aria-label={t.common.mainNav}>
-        {site.nav.map(item => <a href={base + item.href.replace(/^\//,'')}>{item.label ?? t.nav[item.key as keyof typeof t.nav]}</a>)}
+        {site.nav.map(item => <a href={base + item.href.replace(/^\//,'')}>{'label' in item ? item.label : t.nav[item.key as keyof typeof t.nav]}</a>)}
         <a class="icon-link" href={site.links.github} aria-label="GitHub" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         <button class="theme-toggle" type="button" aria-label={t.common.theme} title={t.common.theme}>◐</button>
       </nav>
